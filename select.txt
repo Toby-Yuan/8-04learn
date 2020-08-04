@@ -157,3 +157,12 @@ ORDER BY c.CustomerID
 CREATE index idx_CustomerID on customers (CustomerID)
 CREATE index idx_OrderID on orders (OrderID)
 CREATE index idx_ProductID on `order details` (ProductID)
+
+// 子查詢
+// 子查詢可以放在FROM裡面，但是要取別名
+列出最後五張訂單資料
+way1 : 從新到舊最上面五筆
+SELECT * FROM orders ORDER BY OrderDate DESC LIMIT 5
+
+way2 : 從舊到新最下面五筆
+SELECT * FROM (SELECT * FROM orders ORDER BY OrderDate DESC LIMIT 5) AS T ORDER BY OrderDate
