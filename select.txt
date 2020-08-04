@@ -1,0 +1,30 @@
+// COUNT : 統計有幾筆資料
+SELECT COUNT(ReportsTo) FROM employees
+
+--> 也統計NULL值
+SELECT COUNT(*) FROM employees
+
+// GROUP BY : 以相同的值為分類別(先分區再行動)
+SELECT AVG(UnitPrice), CategoryID
+FROM products
+GROUP BY CategoryID
+
+--> GROUP 過後篩選要用HAVING, 不是WHERE
+HAVING AVG(UnitPrice) >= 30
+OR
+HAVING AvgPrice >= 30  (雖然可以用新名稱，但是還是盡量用舊的)
+
+
+// ROLLUP : 多層次分析
+SELECT * FROM `order details`
+
+SELECT OrderID, ProductID FROM `order details` 
+ORDER BY OrderID, ProductID
+
+SELECT OrderID, ProductID, SUM(Quantity) 
+FROM `order details` 
+Group BY OrderID, ProductID
+
+SELECT OrderID, ProductID, SUM(Quantity) 
+FROM `order details` 
+Group BY OrderID, ProductID with ROLLUP
