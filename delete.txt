@@ -1,0 +1,11 @@
+// DELETE語法
+DELETE FROM orders WHERE ...
+
+// 沒有WHERE會全部刪掉!!!
+
+// TRUNCATE TABLE : 殺光光
+TRUNCATE TABLE orders
+
+point : delete & truncate差異
+delete之後還是有原本的影子，例如自動編號會繼續往後邊
+truncate則不會

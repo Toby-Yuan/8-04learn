@@ -1,0 +1,4 @@
+// UPDATE語法
+UPDATE products 
+SET UnitPrice = (UnitPrice * 1.1)
+WHERE CategoryID = 1;

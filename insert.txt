@@ -1,0 +1,7 @@
+// INSERT基本語法
+INSERT INTO customers
+    (CustomerID, CompanyName, ...)
+VALUES ('PECOF', 'Pecos Coffee Company', ...)
+
+// 該給資料的要給，例如:NOT NULL的欄位
+// 不該給的不要給，例如:自動編號的欄位
