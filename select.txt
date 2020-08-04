@@ -125,3 +125,35 @@ POINT : 欄位較少的放左邊，較多的放右邊(雖然系統會自動轉�
 SELECT ProductName FROM products WHERE ProductName LIKE 'A%'
 UNION
 SELECT ProductName FROM products WHERE ProductName LIKE 'B%'
+
+// JOIN 加強!! 多個資料表
+各客戶買了什麼東西(customers -> orders -> `order details` -> products)
+
+SELECT CustomerID, CompanyName, OrderID FROM customers
+
+SELECT c.CustomerID, CompanyName, OrderID
+FROM customers AS c JOIN orders AS o
+ON o.CustomerID = c.CustomerID
+
+SELECT c.CustomerID, CompanyName, OrderID
+FROM customers AS c JOIN orders AS o
+ON o.CustomerID = c.CustomerID
+ORDER BY c.CustomerID
+
+SELECT c.CustomerID, CompanyName, o.OrderID, ProductID
+FROM customers AS c JOIN orders AS o
+ON o.CustomerID = c.CustomerID
+JOIN `order details` AS od ON od.OrderID = o.OrderID
+ORDER BY c.CustomerID
+
+SELECT c.CustomerID, CompanyName, o.OrderID, od.ProductID, ProductName
+FROM customers AS c JOIN orders AS o
+ON o.CustomerID = c.CustomerID
+JOIN `order details` AS od ON od.OrderID = o.OrderID
+JOIN products AS p ON p.ProductID = od.ProductID
+ORDER BY c.CustomerID
+
+--> 加快速度 : 製作索引
+CREATE index idx_CustomerID on customers (CustomerID)
+CREATE index idx_OrderID on orders (OrderID)
+CREATE index idx_ProductID on `order details` (ProductID)
