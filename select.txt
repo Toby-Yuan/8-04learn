@@ -166,3 +166,11 @@ SELECT * FROM orders ORDER BY OrderDate DESC LIMIT 5
 
 way2 : 從舊到新最下面五筆
 SELECT * FROM (SELECT * FROM orders ORDER BY OrderDate DESC LIMIT 5) AS T ORDER BY OrderDate
+
+// 作為外部查詢使用
+SELECT OrderID, CustomerID FROM orders AS or1
+WHERE 20 < (SELECT Quantity FROM `order details` AS or2 WHERE or1.OrderID = or2.OrderID AND or2.ProductID = 23)
+
+OR
+SELECT * FROM orders
+WHERE OrderID IN (SELECT OrderID FROM `order details` WHERE ProductID = 23 AND Quantity > 20)
