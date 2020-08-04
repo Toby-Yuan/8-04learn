@@ -25,6 +25,103 @@ SELECT OrderID, ProductID, SUM(Quantity)
 FROM `order details` 
 Group BY OrderID, ProductID
 
-SELECT OrderID, ProductID, SUM(Quantity) 
+SELECT OrderID, ProductID, SUM(Quantity)
 FROM `order details` 
 Group BY OrderID, ProductID with ROLLUP
+
+// JOIN : 結合多個資料表
+SELECT X.欄位 Y.欄位, ...
+FROM X JOIN Y
+ON Y.FK = X.PK
+
+
+//上課範例
+--> 原本
+Table1      Table2
+⌜      ⌝    ⌜      ⌝
+ A   B       A   C 
+ ――――――      ――――――
+ A1  B1      A1  C1
+ A2  B2      A2  C2
+ A3  B3      A2  C3
+⌞      ⌟    ⌞      ⌟
+
+--> 輸入
+SELECT X.A,B,C
+FROM Table1 AS X
+JOIN Table2 AS Y
+ON Y.A = X.A
+
+--> 結果
+⌜          ⌝
+ A   B   C  
+ ――――――――――  
+ A1  B1  C1  
+ A2  B2  C2  
+ A2  B2  C3  
+⌞          ⌟ 
+
+筆記 :
+1. 在A欄位中有相同值的資料會被放在同一列
+2. ON Y.A = X.A 就像是 SELECT * FROM Table1 WHERE A = 'A1' (依此類推)
+3. JOIN預設是 inner JOIN 所以當沒有符合時，就不會顯示
+
+--> 輸入
+SELECT X.A,B,C
+FROM Table1 AS X
+left JOIN Table2 AS Y
+ON Y.A = X.A
+
+--> 結果
+⌜          ⌝
+ A   B   C  
+ ――――――――――  
+ A1  B1  C1  
+ A2  B2  C2  
+ A2  B2  C3
+ A3  B3  NL  
+⌞          ⌟ 
+
+筆記 :
+left JOIN 會將左表所有的都顯示，不管有沒有符合
+
+// inner JOIN : 預設，不符合不顯示
+
+// outer JOIN : 不符合也顯示
+// left JOIN :  針對左表(主要的，以上方來說是Table1)
+// right JOIN :  針對右表(次要的，以上方來說是Table2)
+
+// 更多連接
+--> 原本
+Table1      Table2       Table3
+⌜      ⌝    ⌜      ⌝     ⌜      ⌝
+ A   B       A   C        D   C
+ ――――――      ――――――       ――――――
+ A1  B1      A1  C1       D1  C1
+ A2  B2      A2  C2       D2  C2
+ A3  B3      A2  C3       D2  C3
+⌞      ⌟    ⌞      ⌟     ⌞      ⌟
+
+--> 輸入
+SELECT X.A, B, Y.C, D
+FROM Table1 AS X
+JOIN Table2 AS Y
+    ON Y.A = X.A
+JOIN Table3 AS Z
+    ON Z.C = Y.C
+
+--> 結果
+⌜              ⌝
+ A   B   C   D  
+ ――――――――――――――  
+ A1  B1  C1  D1  
+ A2  B2  C2  D2  
+ A2  B2  C3  D3  
+⌞              ⌟ 
+
+POINT : 欄位較少的放左邊，較多的放右邊(雖然系統會自動轉換)，載入次數相對較少
+
+// UNION : 就像剪刀膠水
+SELECT ProductName FROM products WHERE ProductName LIKE 'A%'
+UNION
+SELECT ProductName FROM products WHERE ProductName LIKE 'B%'
